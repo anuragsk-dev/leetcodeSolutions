@@ -1,44 +1,23 @@
 import java.util.HashMap;
 
-public class Solution45 {
+class Solution45 {
+    public int jump(int[] nums) {
 
-    public int jump(int[] jumps) {
+        if (nums.length == 1) return 0;
 
-        if(jumps.length == 1){
-            return 0;
+        int jumps = 0;
+        int currEnd = 0;     // hmap[currStepRange]
+        int farthest = 0;   // hmap[currStepRange + 1]
+
+        for (int i = 0; i < nums.length - 1; i++) {
+
+            farthest = Math.max(farthest, i + nums[i]);
+
+            if (i == currEnd) {     // finished current jump range
+                jumps++;
+                currEnd = farthest;
+            }
         }
-
-        int currStepRange = 0;
-        HashMap<Integer, Integer> hmap = new HashMap<>();
-
-        hmap.put(0,0);
-
-        for(int i=0; i<jumps.length; i++){
-
-            if(i > hmap.get(currStepRange)){
-                currStepRange++;
-            }
-
-            int currMaxJump = i+jumps[i];
-
-            if(currMaxJump >= jumps.length-1){
-                return currStepRange+1;
-            }
-
-            if(!hmap.containsKey(currStepRange+1)){
-                hmap.put(currStepRange+1, currMaxJump);
-            }
-            else{
-
-                if(hmap.get(currStepRange+1) < currMaxJump){
-                    hmap.put(currStepRange+1, currMaxJump);
-                }
-            }
-
-        }
-
-        return currStepRange;
-
+        return jumps;
     }
-
 }
